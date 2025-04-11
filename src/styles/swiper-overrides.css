@@ -1,0 +1,11 @@
+.luxury-swiper-main .swiper-button-next,
+.luxury-swiper-main .swiper-button-prev {
+  color: #D4AF37 !important;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1.5rem;
+  border-radius: 50%;
+}
+
+.luxury-swiper-thumbs .swiper-slide-thumb-active {
+  border: 2px solid #D4AF37 !important;
+}

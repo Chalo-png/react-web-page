@@ -1,0 +1,15 @@
+/* Custom scrollbar for size container */
+.size-container::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .size-container::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.3);
+    border-radius: 4px;
+  }
+  
+  /* Lazy load image transition */
+  .lazy-load-image-loaded {
+    transition: opacity 0.3s ease-in-out !important;
+  }

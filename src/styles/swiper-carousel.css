@@ -1,0 +1,28 @@
+/* src/styles/swiper-carousel.css */
+.luxury-swiper .swiper-button-next,
+.luxury-swiper .swiper-button-prev {
+  color: #D4AF37 !important;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1.5rem;
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  width: 60px;
+  height: 60px;
+}
+
+.luxury-swiper .swiper-button-next:after,
+.luxury-swiper .swiper-button-prev:after {
+  font-size: 1.5rem;
+}
+
+.luxury-swiper .swiper-pagination-bullet {
+  background: #D4AF37 !important;
+  opacity: 0.5;
+  width: 12px;
+  height: 12px;
+}
+
+.luxury-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  transform: scale(1.2);
+}

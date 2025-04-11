@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { 
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Add to Tailwind */
+@layer utilities {
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-in;
+  }
+  .animate-slideInUp {
+    animation: slideInUp 0.5s ease-out;
+  }
+}
+
+/* Swiper Overrides */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #d4af37 !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  padding: 20px !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 1.5rem !important;
+}
+
+/* Custom Scrollbar */
+.thumb-carousel::-webkit-scrollbar {
+  height: 4px;
+}
+
+@layer utilities {
+  .bg-gold-50 {
+    background-color: rgba(212, 175, 55, 0.5); /* Replace with your desired gold color */
+  }
+}
+
+.thumb-carousel::-webkit-scrollbar-thumb {
+  @apply bg-gold-50 rounded;
+}
+
+:root {
+  --gold: #d4af37;
+  --gold-light: #f9e076;
+  --gold-dark: #996515;
+  --gold-glow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Efecto de "glow" dorado */
+.shadow-gold-glow {
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Transiciones suaves */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Gradiente dorado para textos */
+.text-gold-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #d4af37, #f9e076);
+}
