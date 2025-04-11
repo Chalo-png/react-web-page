@@ -29,10 +29,15 @@ const Footer = () => {
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent my-4" />
 
           {/* Copyright */}
-          <p className="text-sm font-light text-center">
-            © {new Date().getFullYear()} Monaco Talagante<br />
-            <span className="text-base-content/60">Catálogo exclusivo para clientes selectos</span>
-          </p>
+          <p className="text-md text-center text-base-content/70 leading-relaxed">
+  <span className="block font-medium text-base-content">
+    © {new Date().getFullYear()} Monaco Talagante
+  </span>
+  Catálogo exclusivo para clientes selectos<br />
+  Enrique Alcalde 1080, Talagante<br />
+  Pasillo 4, Local 101
+</p>
+
 
           {/* Social Links */}
           <div className="flex gap-6 mt-4">

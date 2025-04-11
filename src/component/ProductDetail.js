@@ -19,7 +19,10 @@ function ProductDetail({ products }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage] = useState('');
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
+  const showOriginalPrice = product.price !== product.discountPrice;
+  const displayPrice = product.price === product.discountPrice 
+  ? product.price 
+  : product.discountPrice;
   if (!product) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-gold px-4 py-12 text-center">
@@ -135,8 +138,8 @@ function ProductDetail({ products }) {
               <span className="text-3xl font-cinzel text-gold">
                 ${product.discountPrice?.toLocaleString()}
               </span>
-              {product.price && (
-                <span className="text-lg line-through text-gold/50">
+              {showOriginalPrice && (
+                <span className="text-xs text-gold/50 line-through">
                   ${product.price.toLocaleString()}
                 </span>
               )}
@@ -174,7 +177,7 @@ function ProductDetail({ products }) {
               <span className="text-gold">{product.quantity} en stock</span>
             </div>
             <div className="flex justify-between">
-              <span>Tienda:</span>
+              <span>Marca:</span>
               <span className="uppercase">{product.store}</span>
             </div>
           </div>

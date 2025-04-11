@@ -208,8 +208,10 @@ function AdminPanel() {
         product.code?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+
     return (
-        <div className="min-h-screen bg-base-100 text-base-content p-4 sm:p-8 max-w-7xl mx-auto">
+        <div className="min-h-screen bg-base-100 text-base-content  w-full">
+
             {/* Tabs */}
             <div className="tabs border-b border-primary/20 mb-6">
                 <button className="tab tab-bordered tab-active text-primary">Productos</button>
@@ -258,142 +260,132 @@ function AdminPanel() {
             </div>
 
             {/* Table */}
-            <div className="overflow-x-auto rounded-lg border border-primary/20 shadow-sm">
-                <table className="table w-full">
-                    {/* Table Header */}
-                    <thead className="bg-base-200 border-b border-primary/20">
-                        <tr>
-                            <th className="font-cinzel text-primary/80">Imagen</th>
-                            <th className="font-cinzel text-primary/80">Boutique</th>
-                            <th className="font-cinzel text-primary/80">Nombre</th>
-                            <th className="font-cinzel text-primary/80">Código</th>
-                            <th className="font-cinzel text-primary/80">Categoría</th>
-                            <th className="font-cinzel text-primary/80">Género</th>
-                            <th className="font-cinzel text-primary/80">Precio</th>
-                            <th className="font-cinzel text-primary/80">Tallas</th>
-                            <th className="font-cinzel text-primary/80">Acciones</th>
-                        </tr>
-                    </thead>
+            <div className="overflow-x-auto w-full rounded-lg border border-primary/20 shadow-sm">
+  <table className="table w-full">
+    <thead className="bg-base-200 border-b border-primary/20">
+      <tr>
+        <th className="font-cinzel text-primary/80">Imagen</th>
+        <th className="font-cinzel text-primary/80">Código</th>
+        <th className="font-cinzel text-primary/80">Código Etiqueta</th>
+        <th className="font-cinzel text-primary/80">Nombre</th>
+        <th className="font-cinzel text-primary/80">Marca</th>
+        <th className="font-cinzel text-primary/80">Categoría</th>
+        <th className="font-cinzel text-primary/80">Género</th>
+        <th className="font-cinzel text-primary/80">Precio</th>
+        <th className="font-cinzel text-primary/80">Stock</th>
+        <th className="font-cinzel text-primary/80">Tallas</th>
+        <th className="font-cinzel text-primary/80">Acciones</th>
+      </tr>
+    </thead>
 
-                    {/* Table Body */}
-                    <tbody>
-                        {isLoading ? (
-                            [...Array(5)].map((_, i) => (
-                                <tr key={i} className="hover:bg-base-200/50 border-b border-primary/10">
-                                    {[...Array(9)].map((_, j) => (
-                                        <td key={j}>
-                                            <div className="animate-pulse h-6 bg-primary/10 rounded w-3/4"></div>
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))
-                        ) : filteredProducts.length > 0 ? (
-                            <AnimatePresence>
-                                {filteredProducts.map((product, index) => (
-                                    <motion.tr
-                                        key={product.id}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ delay: index * 0.05 }}
-                                        className="hover:bg-base-200/50 border-b border-primary/10"
-                                    >
-                                        <td>
-                                            <img
-                                                src={product.image}
-                                                alt={product.name}
-                                                className="w-16 h-16 object-cover rounded-lg border border-primary/20"
-                                            />
-                                        </td>
-                                        <td className="font-medium">{product.store}</td>
-                                        <td className="font-medium">{product.name}</td>
-                                        <td>
-                                            <span className="badge badge-outline text-primary">
-                                                {product.code}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span className="badge badge-outline text-primary">
-                                                {product.classification}
-                                            </span>
-                                        </td>
-                                        <td className="capitalize">{product.gender || 'NO APLICA'}</td>
-                                        <td className="font-cinzel text-primary">${product.price?.toLocaleString()}</td>
-                                        <td>
-                                            <div className="flex flex-wrap gap-1">
-                                                {product.sizes?.length > 0 ? (
-                                                    product.sizes.map((size) => (
-                                                        <motion.span
-                                                            key={size}
-                                                            whileHover={{ scale: 1.05 }}
-                                                            className="badge badge-outline border-primary/20 text-primary hover:border-primary/40"
-                                                        >
-                                                            {size}
-                                                        </motion.span>
-                                                    ))
-                                                ) : (
-                                                    <span className="text-base-content/60">NO APLICA</span>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="flex gap-2">
-                                                <div className="tooltip" data-tip={highlightedIds.includes(product.id) ? "Quitar de destacados" : "Marcar como destacado"}>
-                                                    <motion.button
-                                                        whileHover={{ scale: 1.05 }}
-                                                        onClick={() => toggleHighlight(product.id)}
-                                                        className={`btn btn-square btn-sm ${highlightedIds.includes(product.id) ? 'bg-primary text-primary-content' : 'btn-outline'}`}
-                                                    >
-                                                        <FaStar className={`w-4 h-4 ${highlightedIds.includes(product.id) ? 'text-yellow-300' : 'text-primary'}`} />
-                                                    </motion.button>
-                                                </div>
+    <tbody>
+      {filteredProducts.map((product) => {
+        const showOriginalPrice = product.price !== product.discountPrice;
+        const displayPrice =
+          product.discountPrice > 0 && product.discountPrice < product.price
+            ? product.discountPrice
+            : product.price;
 
-                                                <motion.button
-                                                    whileHover={{ scale: 1.05 }}
-                                                    onClick={() => handleEdit(product.id)}
-                                                    className="btn btn-square btn-sm btn-outline border-primary/20 text-primary hover:border-primary/40"
-                                                >
-                                                    <FaEdit className="w-4 h-4" />
-                                                </motion.button>
+        return (
+          <tr key={product.id} className="hover:bg-base-200/50 border-b border-primary/10">
+            {/* Imagen */}
+            <td>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-16 h-16 object-cover rounded-lg border border-primary/20"
+              />
+            </td>
 
-                                                <motion.button
-                                                    whileHover={{ scale: 1.05 }}
-                                                    onClick={() => handleDeleteConfirmation(product.id)}
-                                                    className="btn btn-square btn-sm btn-outline border-error/20 text-error hover:border-error/40"
-                                                >
-                                                    <FaTrash className="w-4 h-4" />
-                                                </motion.button>
+            {/* Códigos */}
+            <td>
+              <span className="badge badge-outline text-primary">
+                {product.code}
+              </span>
+            </td>
+            <td>
+              <span className="badge badge-outline text-secondary">
+                {product.labelCode}
+              </span>
+            </td>
+
+            {/* Información básica */}
+            <td className="font-medium">{product.name}</td>
+            <td className="font-medium">{product.store}</td>
+            <td>
+              <span className="badge badge-outline text-primary">
+                {product.classification}
+              </span>
+            </td>
+            <td className="capitalize">{product.gender || 'N/A'}</td>
+
+            {/* Precio combinado */}
+            <td>
+              <div className="flex flex-col items-end">
+                <span className="font-cinzel text-sm text-primary">
+                  ${displayPrice.toLocaleString()}
+                </span>
+                {showOriginalPrice && (
+                  <span className="text-xs text-base-content/50 line-through">
+                    ${product.price.toLocaleString()}
+                  </span>
+                )}
+              </div>
+            </td>
+
+            {/* Stock */}
+            <td>
+              <span
+                className={`badge ${
+                  product.quantity <= 5 ? 'badge-error' : 'badge-outline'
+                }`}
+              >
+                {product.quantity}
+              </span>
+            </td>
 
 
-                                            </div>
-                                        </td>
-                                    </motion.tr>
-                                ))}
-                            </AnimatePresence>
-                        ) : (
-                            <tr>
-                                <td colSpan="9">
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        className="flex flex-col items-center justify-center py-24 text-center"
-                                    >
-                                        <FaBoxOpen className="w-16 h-16 text-primary/30 mb-4" />
-                                        <h3 className="text-xl font-cinzel text-primary/80 mb-2">
-                                            No se encontraron productos
-                                        </h3>
-                                        <p className="text-base-content/60 max-w-md">
-                                            {searchTerm
-                                                ? `No hay resultados para "${searchTerm}"`
-                                                : "La colección está vacía. Agrega nuevos productos para comenzar."}
-                                        </p>
-                                    </motion.div>
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
+            {/* Tallas */}
+            <td>
+              <div className="flex flex-wrap gap-1">
+                {product.sizes?.map((size) => (
+                  <span
+                    key={size}
+                    className="badge badge-outline border-primary/20"
+                  >
+                    {size}
+                  </span>
+                ))}
+              </div>
+            </td>
+
+            {/* Acciones */}
+            <td>
+              <div className="flex gap-2">
+                <button onClick={() => toggleHighlight(product.id)}>
+                  <FaStar
+                    className={`text-xl ${
+                      highlightedIds.includes(product.id)
+                        ? 'text-yellow-400'
+                        : 'text-primary/30'
+                    }`}
+                  />
+                </button>
+                <button onClick={() => handleEdit(product.id)}>
+                  <FaEdit className="text-primary hover:text-primary/80" />
+                </button>
+                <button onClick={() => handleDeleteConfirmation(product.id)}>
+                  <FaTrash className="text-error hover:text-error/80" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+
 
             {/* Delete Confirmation Modal */}
             <AnimatePresence>

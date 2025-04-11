@@ -8,6 +8,10 @@ import 'react-lazy-load-image-component/src/effects/opacity.css';
 function ProductCard({ product }) {
   const navigate = useNavigate();
   const user = useAuthSession();
+  const showOriginalPrice = product.price !== product.discountPrice;
+  const displayPrice = product.price === product.discountPrice 
+  ? product.price 
+  : product.discountPrice;
 
   return (
     <motion.div
@@ -52,10 +56,17 @@ function ProductCard({ product }) {
             {product.name}
           </h3>
           <div className="flex items-center justify-between mt-2">
-            <span className="text-gold/70 text-sm">Precio</span>
-            <span className="font-cinzel text-xl bg-gradient-to-r from-gold to-gold-light bg-clip-text text-primary">
-              ${product.discountPrice.toLocaleString()}
-            </span>
+            <span className="text-gold/70">Precio</span>
+            <div className="flex flex-col items-end">
+              <span className="font-cinzel text-xl bg-gradient-to-r from-gold to-gold-light bg-clip-text text-primary">
+                ${displayPrice.toLocaleString()}
+              </span>
+              {showOriginalPrice && (
+                <span className="text-xs text-gold/50 line-through">
+                  ${product.price.toLocaleString()}
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -105,6 +116,11 @@ function ProductCard({ product }) {
       {product.isNew && (
         <div className="absolute top-4 left-4 bg-gold text-black px-4 py-1.5 rounded-r-full text-xs font-cinzel uppercase tracking-wide shadow-md">
           New Arrival
+        </div>
+      )}
+      {product.quantity < 1 && (
+        <div className="absolute top-4 left-4 bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-cinzel uppercase tracking-wide shadow-md">
+          Agotado
         </div>
       )}
     </motion.div>

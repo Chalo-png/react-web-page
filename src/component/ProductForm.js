@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import useFirestoreOptions from '../hooks/useFirestoreOptions';
 import { FaUpload, FaImages, FaSave, FaCamera } from 'react-icons/fa';
 
-const SIZE_OPTIONS = ['S', 'M', 'L', 'XL', 'XXL'];
+const SIZE_OPTIONS = ['XS','S', 'M', 'L', 'XL', 'XXL'];
 
 function ProductForm({ initialValues = {}, onSubmit, submitText = "Guardar" }) {
   const [product, setProduct] = useState({
@@ -55,7 +55,7 @@ function ProductForm({ initialValues = {}, onSubmit, submitText = "Guardar" }) {
       "descripción": product.description,
       "precio": product.price,
       "cantidad": product.quantity,
-      "tienda": product.store,
+      "marca": product.store,
       "clasificación": product.classification,
     };
   
@@ -194,9 +194,9 @@ function ProductForm({ initialValues = {}, onSubmit, submitText = "Guardar" }) {
           />
         </motion.div>
   
-        {/* Tienda */}
+        {/* Marca */}
         <motion.div className="form-control lg:col-span-3">
-          <label className="label font-cinzel text-primary/80">Tienda</label>
+          <label className="label font-cinzel text-primary/80">Marca</label>
           <select
             name="store"
             className="select select-bordered w-full bg-base-200 border-primary/20 focus:border-primary focus:ring-2 focus:ring-primary/20"
@@ -213,7 +213,7 @@ function ProductForm({ initialValues = {}, onSubmit, submitText = "Guardar" }) {
             }}
             required
           >
-            <option value="">Seleccione tienda</option>
+            <option value="">Seleccione marca</option>
             {storeOptions.map(opt => (
               <option key={opt.id} value={opt.name}>{opt.name}</option>
             ))}
@@ -355,26 +355,34 @@ function ProductForm({ initialValues = {}, onSubmit, submitText = "Guardar" }) {
         <motion.div className="form-control lg:col-span-3">
           <label className="label font-cinzel text-primary/80">Tallas Disponibles</label>
           <div className="flex flex-wrap gap-2">
-            {sizesOptions.map((size) => (
-              <button
-                key={size}
-                type="button"
-                onClick={() => {
-                  setProduct((prev) => {
-                    const sizes = prev.sizes.includes(size)
-                      ? prev.sizes.filter((s) => s !== size)
-                      : [...prev.sizes, size];
-                    return { ...prev, sizes };
-                  });
-                }}
-                className={`btn btn-sm ${product.sizes.includes(size)
-                    ? 'btn-primary text-primary-content'
-                    : 'btn-outline border-primary/20 text-primary'
-                  }`}
-              >
-                {size}
-              </button>
-            ))}
+          {sizesOptions.map((opt, index) => {
+  const size = typeof opt === 'string' ? opt : opt.name ?? opt.id;
+  console.log('Tallas desde Firebase:', sizesOptions);
+
+  return (
+    <button
+      key={typeof opt === 'object' ? opt.id ?? index : index}
+      type="button"
+      onClick={() => {
+        setProduct((prev) => {
+          const sizes = prev.sizes.includes(size)
+            ? prev.sizes.filter((s) => s !== size)
+            : [...prev.sizes, size];
+          return { ...prev, sizes };
+        });
+      }}
+      className={`btn btn-sm ${
+        product.sizes.includes(size)
+          ? 'btn-primary text-primary-content'
+          : 'btn-outline border-primary/20 text-primary'
+      }`}
+    >
+      {size}
+    </button>
+  );
+})}
+
+
           </div>
         </motion.div>
       </div>

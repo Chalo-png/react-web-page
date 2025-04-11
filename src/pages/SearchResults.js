@@ -89,13 +89,13 @@ function SearchResults({ products }) {
               transition={{ delay: 0.2 }}
             >
               <div className="form-control">
-                <label className="label font-playfair">Boutique</label>
+                <label className="label font-playfair">Marca</label>
                 <select
                   className="select select-bordered bg-base-200 border-primary/20 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg"
                   onChange={(e) => setFilters({ ...filters, store: e.target.value })}
                   value={filters.store}
                 >
-                  <option value="">Todas las boutiques</option>
+                  <option value="">Todas las marcas</option>
                   {stores.map(store => (
                     <option key={store} value={store}>
                       {store.toUpperCase()}
@@ -119,7 +119,7 @@ function SearchResults({ products }) {
                   value={filters.priceRange}
                 >
                   <option value="">Todos los precios</option>
-                  <option value="10000">Hasta $10,000</option>
+                  <option value="20000">Hasta $20,000</option>
                   <option value="50000">Hasta $50,000</option>
                   <option value="100000">Hasta $100,000</option>
                   <option value="200000">Hasta $200,000</option>
